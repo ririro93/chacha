@@ -147,5 +147,9 @@ CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
      'http://127.0.0.1:3000',
      'http://localhost:8000',
-     'http://127.0.0.1:8000'
+<<<<<<< HEAD
+     'http://127.0.0.1:8000',
+=======
+     'http://127.0.0.1:8000',
+>>>>>>> 4cafdc8fbd5be23792265e341da6a9125e36dbcd
 ]
