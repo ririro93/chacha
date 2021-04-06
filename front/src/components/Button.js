@@ -10,11 +10,12 @@ class Button extends React.Component {
 
     render() {
         const { text } = this.state;
+        const { history, to, className } = this.props;
+
         return(
-            <div className="Button">
-                <button type="button" className="btn btn-link">{text}</button>
+            <div className="button">
+                <a className={className} onClick={() => {history.push(to)}}>{text}</a>
             </div>
-            
         );
     }
 }

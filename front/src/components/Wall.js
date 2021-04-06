@@ -1,15 +1,6 @@
 import React from 'react';
 
 class Wall extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    componentDidUpdate() {
-        const { questionList } = this.props;
-        console.log(questionList[0]);
-    }
-
     render() {
         const { questionList } = this.props;
 
@@ -26,14 +17,26 @@ class Wall extends React.Component {
                         questionList.map(question => 
                             <div key={question.id}>
                                 <div>
-                                    <div>Author: {question.author}</div>
+                                    <div>
+                                        <span className="text-secondary"><small>written by</small></span> <span>{question.author}</span>
+                                    </div>
                                 </div>
-
-                                <div>{question.content}</div> created_at: {question.created_at.getFullYear()}.{question.created_at.getMonth()}.{question.created_at.getDay()}
+                                <div>
+                                    <span className="text-secondary">
+                                        <small>created_at: </small> 
+                                    </span>
+                                    <small>
+                                        {question.created_at.getFullYear()}.{question.created_at.getMonth()}.{question.created_at.getDay()}
+                                    </small>
+                                </div>
+                                <div>
+                                    {question.content}
+                                </div> 
+                                
                             </div>
-                    )}
+                        )
+                    }
                 </div>
-                
             </div>
         );
     }
