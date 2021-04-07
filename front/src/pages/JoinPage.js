@@ -13,14 +13,12 @@ class JoinPage extends React.Component {
                 email: <input type="text" name="email"></input><br></br>
                 Password: <input type="password" name="password1"></input><br></br>
                 confirm: <input type="password" name="password2"></input><br></br>
-                <input type="hidden" name="csrfmiddlewaretoken" value={ csrftoken } />
                 <a onClick={() => {
                     const email = document.querySelector("input[name=email]").value;
                     const password1 = document.querySelector("input[name=password1").value;
                     const password2 = document.querySelector("input[name=password2").value;
                     
-                    console.log(email, password1, password2, csrftoken);
-                    axios.post('http://localhost:8000/accounts/auth/register',
+                    axios.post('http://localhost:8000/accounts/auth/register/',
                         {
                             email: email,
                             password1: password1,
@@ -38,10 +36,6 @@ class JoinPage extends React.Component {
                 }}>Join</a>
             </div>
         );
-    }
-
-    join(email, password, password2) {
-
     }
 }
 
