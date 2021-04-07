@@ -4,9 +4,11 @@ class Wall extends React.Component {
     render() {
         const { questionList } = this.props;
 
-        for (let question of questionList) {
-            question.created_at = new Date(question.created_at);
-            question.updated_at = new Date(question.updated_at);
+        if (questionList) {
+            for (let question of questionList) {
+                question.created_at = new Date(question.created_at);
+                question.updated_at = new Date(question.updated_at);
+            }
         }
 
         return(
@@ -14,7 +16,7 @@ class Wall extends React.Component {
                 <div className="card" style={{width: "20rem"}}>
                     <h5 className="card-title">Recent Questions</h5>
                     { 
-                        questionList.map(question => 
+                        questionList ? questionList.map(question => 
                             <div key={question.id}>
                                 <div>
                                     <div>
@@ -34,7 +36,7 @@ class Wall extends React.Component {
                                 </div> 
                                 
                             </div>
-                        )
+                        ) : null
                     }
                 </div>
             </div>

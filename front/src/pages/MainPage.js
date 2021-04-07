@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Main from '../components/Main';
 import Wall from '../components/Wall';
@@ -14,6 +13,7 @@ class MainPage extends React.Component {
   }
 
   componentDidMount() {
+    /*
     axios.get('http://localhost:8000/api/questions/').then(res => {
       this.setState({
         questionList: res.data
@@ -24,10 +24,12 @@ class MainPage extends React.Component {
         userList: res.data
       });
     });
+    */
   }
 
   render() {
-    const { questionList } = this.state;
+    const questionList = null;
+    //const { questionList } = this.state;
     const { history } = this.props;
 
     return (
