@@ -153,6 +153,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 SITE_ID = 1 
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
@@ -166,3 +167,4 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',    
     ],
 }
+LOGOUT_ON_PASSWORD_CHANGE = False
