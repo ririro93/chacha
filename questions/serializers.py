@@ -2,9 +2,10 @@ from rest_framework import serializers
 from .models import Question, Choice, Answer
 
 class QuestionSerializer(serializers.ModelSerializer):
+    choices = serializers.StringRelatedField(many=True)
     class Meta:
         model = Question
-        fields = ('id', 'author', 'content', 'main_question', 'created_at', 'updated_at', 'last_main_at')
+        fields = ('id', 'author', 'content', 'main_question', 'created_at', 'updated_at', 'last_main_at', 'choices')
 
 class ChoiceSerializer(serializers.ModelSerializer):
     class Meta:
