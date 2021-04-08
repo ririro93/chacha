@@ -10,6 +10,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class ChoiceSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField()
+    question = serializers.StringRelatedField()
     answers = serializers.StringRelatedField(many=True)
     class Meta:
         model = Choice
