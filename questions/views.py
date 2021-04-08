@@ -1,5 +1,10 @@
-from django.shortcuts import render
-from rest_framework import viewsets
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from rest_framework import viewsets, generics, permissions
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .models import (
     Question,
     Choice,
@@ -23,3 +28,10 @@ class ChoiceView(viewsets.ModelViewSet):
 class AnswerView(viewsets.ModelViewSet):
     serializer_class = AnswerSerializer
     queryset = Answer.objects.all()
+
+class MainQuestionView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        main_question = get_object_or_404(Question, main_question=True)
+        serializer = QuestionSerializer(main_question)
+        return Response(serializer.data)

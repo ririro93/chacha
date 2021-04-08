@@ -8,11 +8,10 @@ from accounts.views import (
 )
 from questions.views import (
     QuestionView,
+    MainQuestionView,
     ChoiceView,
     AnswerView,
 )
-
-
 
 router = routers.DefaultRouter()
 router.register(r'questions', QuestionView, 'questions')
@@ -23,6 +22,7 @@ router.register(r'users', CustomUserView, 'users')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('api/questions/main/', MainQuestionView.as_view()),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     re_path('.*', TemplateView.as_view(template_name='index.html')),

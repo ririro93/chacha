@@ -10,6 +10,8 @@ class Question(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.SET_DEFAULT, default=DEFAULT_USER_MODEL_PK)
 
     content = models.CharField(max_length=200)
+    main_question = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     last_main_at = models.DateTimeField(blank=True, null=True)
