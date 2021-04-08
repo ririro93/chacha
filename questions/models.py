@@ -32,12 +32,12 @@ class Choice(models.Model):
 
 class Answer(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.SET_DEFAULT, default=DEFAULT_USER_MODEL_PK)
-    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
-    like_users = models.ManyToManyField(CustomUser, related_name='like_answers')
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE, related_name='answers')
+    like_users = models.ManyToManyField(CustomUser, related_name='like_answers', blank=True)
     
     comment = models.CharField(max_length=500, blank=True, null=True)  # 얘는 길어질수도 있으니깐 textarea가 나을수도
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.content[:20]
+        return self.comment[:20]

@@ -30,8 +30,16 @@ class AnswerView(viewsets.ModelViewSet):
     queryset = Answer.objects.all()
 
 class MainQuestionView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     def get(self, request, *args, **kwargs):
-        main_question = get_object_or_404(Question, main_question=True)
-        serializer = QuestionSerializer(main_question)
-        return Response(serializer.data)
+        data = {}
+        question = get_object_or_404(Question, main_question=True)
+        serializer = QuestionSerializer(question)
+        data['question'] = serializer.data
+
+        print('###', question.choices.all())
+        for i, choice in enumerate(question.choices.all(), start=1):
+            choice_serializer = ChoiceSerializer(choice)
+            data[f'choice{i}'] = choice_serializer.data
+            
+        return Response(data)
