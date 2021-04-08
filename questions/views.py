@@ -18,14 +18,17 @@ from .serializers import (
 
 # Create your views here.
 class QuestionView(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
 
 class ChoiceView(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
     serializer_class = ChoiceSerializer
     queryset = Choice.objects.all()
 
 class AnswerView(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
     serializer_class = AnswerSerializer
     queryset = Answer.objects.all()
 
