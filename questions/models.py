@@ -21,7 +21,7 @@ class Question(models.Model):
 
 class Choice(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.SET_DEFAULT, default=DEFAULT_USER_MODEL_PK)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='choices')
 
     content = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
