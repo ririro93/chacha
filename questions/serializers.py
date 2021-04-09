@@ -2,16 +2,17 @@ from rest_framework import serializers
 from .models import Question, Choice, Answer
 
 class QuestionSerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField()
-    choices = serializers.StringRelatedField(many=True)
+    author = serializers.StringRelatedField(read_only=True)
+    choices = serializers.StringRelatedField(many=True, read_only=True)
     class Meta:
         model = Question
         fields = ('id', 'author', 'content', 'main_question', 'created_at', 'updated_at', 'last_main_at', 'choices')
+        # fields = ('id', 'author', 'content', 'main_question', 'created_at', 'updated_at', 'last_main_at')
 
 class ChoiceSerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField()
+    author = serializers.StringRelatedField(read_only=True)
     question = serializers.StringRelatedField()
-    answers = serializers.StringRelatedField(many=True)
+    answers = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Choice
@@ -29,7 +30,7 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
 class ChoiceSerializerAnswer(serializers.ModelSerializer):
     # 처음에 메인 질문 불러올 때 상세 답은 안 보내고 답한 수만 보내기 위해
-    author = serializers.StringRelatedField()
+    author = serializers.StringRelatedField(read_only=True)
     question = serializers.StringRelatedField()
 
     class Meta:
@@ -38,8 +39,8 @@ class ChoiceSerializerAnswer(serializers.ModelSerializer):
 
 
 class AnswerSerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField()
-    choice = serializers.StringRelatedField()
+    author = serializers.StringRelatedField(read_only=True)
+    choice = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Answer
         fields = ('id', 'author', 'choice', 'like_users', 'comment', 'created_at', 'updated_at')
