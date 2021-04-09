@@ -31,10 +31,11 @@ class QuestionView(viewsets.ModelViewSet):
         data['question'] = serializer.data
 
         print('###', question.choices.all())
-        for i, choice in enumerate(question.choices.all(), start=1):
+        data['question']['choices'] = []
+        for choice in question.choices.all():
             choice_serializer = ChoiceSerializerAnswer(choice)
             # choice_serializer = ChoiceSerializer(choice, answer=False)
-            data[f'choice{i}'] = choice_serializer.data
+            data['question']['choices'].append(choice_serializer.data)
             
         return Response(data)
 
