@@ -13,6 +13,7 @@ from .models import (
 from .serializers import (
     QuestionSerializer,
     ChoiceSerializer,
+    ChoiceSerializerAnswer,
     AnswerSerializer,
 )
 
@@ -22,19 +23,8 @@ class QuestionView(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
 
-class ChoiceView(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny]
-    serializer_class = ChoiceSerializer
-    queryset = Choice.objects.all()
-
-class AnswerView(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny]
-    serializer_class = AnswerSerializer
-    queryset = Answer.objects.all()
-
-class MainQuestionView(APIView):
-    permission_classes = [permissions.AllowAny]
-    def get(self, request, *args, **kwargs):
+    @action(detail=False, url_path='main-question')
+    def main_question(self, request, *args, **kwargs):
         data = {}
         question = get_object_or_404(Question, main_question=True)
         serializer = QuestionSerializer(question)
@@ -42,7 +32,19 @@ class MainQuestionView(APIView):
 
         print('###', question.choices.all())
         for i, choice in enumerate(question.choices.all(), start=1):
-            choice_serializer = ChoiceSerializer(choice)
+            choice_serializer = ChoiceSerializerAnswer(choice)
+            # choice_serializer = ChoiceSerializer(choice, answer=False)
             data[f'choice{i}'] = choice_serializer.data
             
         return Response(data)
+
+class ChoiceView(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = ChoiceSerializer
+    queryset = Choice.objects.all()
+
+
+class AnswerView(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = AnswerSerializer
+    queryset = Answer.objects.all()
