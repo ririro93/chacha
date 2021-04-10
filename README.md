@@ -7,7 +7,7 @@
 - try JWT(Json Web Token) auth
 
 ## 투두s
-- API request & response
+- API endpoints
     - [x] auth -> api/accounts/...
         - [x] 로그인, 로그아웃
         - [x] 회원가입 (signup/)
