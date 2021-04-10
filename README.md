@@ -8,15 +8,15 @@
 
 ## 투두s
 - API request & response
-    - [x] auth -> api/accounts/.../
+    - [x] auth -> api/accounts/...
         - [x] 로그인, 로그아웃
-        - [x] 회원가입 (signup)
-        - [ ] current user info (profile)
-    - [ ] questions -> api/questions/.../
-        - [x] Question 생성
+        - [x] 회원가입 (signup/)
+        - [ ] current user info (profile/)
+    - [ ] questions -> api/questions/...
+        - [x] Question 생성 (POST)
             - [x] choices 는 기본적으로 question 등록할 때 같이 할 수 있게 
             - [x] -> modelviewset customizing 할 수 있으면 json으로 choices 목록 오는걸로 question, choices 한번에 생성하기
-        - [x] Main Question (main-question)
+        - [x] Main Question (main-question/)
             - [x] 각 Choice 에 대한 답변 개수만 추가해서 보내기
             - [x] -> answer 정보는 보내지 말기 (브라우저로 볼 수 있으니깐)
 - Backend
