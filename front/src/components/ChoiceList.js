@@ -9,7 +9,7 @@ class ChoiceList extends React.Component {
         const csrftoken = Cookies.get('csrftoken');
         axios.post('http://localhost:8000/api/answers/', 
         {
-            author: 0,
+            author: 1,
             choice: choice.id
         }, 
         {
