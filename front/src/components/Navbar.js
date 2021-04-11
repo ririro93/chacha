@@ -14,10 +14,8 @@ class Navbar extends React.Component {
                     <input className="search-question" type="text" placeholder="Search"></input>
                 </div>
                 <ul className="navbar-nav">
-                    
                     <li className="nav-item">
-                         <button type="button" class="btn btn-secondary">New question</button>
-                        
+                         <button type="button" className="btn btn-secondary" onClick={() => {history.push('/create-question')}}>New question</button>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" data-bs-toggle="modal" data-bs-target="#sign-in-modal">Sign in</a>

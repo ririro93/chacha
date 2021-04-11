@@ -1,5 +1,5 @@
 import React from 'react';
-import './sign.css';
+import './modal.css';
 import { Link } from 'react-router-dom';
 
 class SignUp extends React.Component {
