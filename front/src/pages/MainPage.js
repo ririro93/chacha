@@ -73,14 +73,11 @@ class MainPage extends React.Component {
     }
     */
 
-    /*
     
-    axios.get('http://localhost:8000/api/questions/list').then(res => {
-      this.setState({
-        questionList: res.data
-      });
+    axios.get('http://localhost:8000/api/questions/main-question/').then(res => {
+      console.log(res.data);  
+
     });
-    */
    
   }
 
@@ -93,8 +90,10 @@ class MainPage extends React.Component {
       <div className="App">
         <Navbar history={history} ></Navbar>
         <div className="container">
-          <Main mainQuestion={mainQuestion}>
-          </Main>
+          <div className="row">
+            <Main mainQuestion={mainQuestion}>
+            </Main>
+          </div>
           <div className="row">
             <div className="col-sm">
               <Wall questionList={questionList}></Wall>

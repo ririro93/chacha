@@ -16,8 +16,8 @@ class Question(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     last_main_at = models.DateTimeField(blank=True, null=True)
 
-    def __str__(self):
-        return self.content[:20]
+    #def __str__(self):
+    #    return self.content[:20]
 
 class Choice(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.SET_DEFAULT, default=DEFAULT_USER_MODEL_PK)
@@ -29,6 +29,9 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.content[:20]
+
+    def get_ans_count(self):
+        return len(self.answers.all())
 
 class Answer(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.SET_DEFAULT, default=DEFAULT_USER_MODEL_PK)
