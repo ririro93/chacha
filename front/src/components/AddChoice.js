@@ -10,7 +10,7 @@ class AddChoice extends React.Component {
         const choiceContent = document.getElementById('choice-content').value;
         axios.post('http://localhost:8000/api/choices/',
             {
-                'author': 0,
+                'author': 1,
                 'question': questionId,
                 'content': choiceContent
             },
