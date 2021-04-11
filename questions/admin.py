@@ -4,7 +4,7 @@ from .models import Question, Choice, Answer, Comment
 # Register your models here.
 class QuestionAdmin(admin.ModelAdmin):
     model = Question
-    list_display = ['id', 'content', 'author', 'get_choices']
+    list_display = ['id', 'content', 'author', 'get_choices', 'created_at', 'updated_at']
     list_filter = ['author']
 
     def get_choices(self, obj):
