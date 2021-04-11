@@ -15,3 +15,22 @@ code {
 .button {
   cursor: pointer;
 }
+
+a {
+  cursor: pointer;
+}
+
+.search-question {
+  color: #ddd;
+  outline: none;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid gray;
+  width: 25%;
+  transition: width 0.5s, border-color 0.5s;
+}
+
+.search-question:focus {
+  width: 80%;
+  border-color: #aaa;
+}

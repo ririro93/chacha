@@ -3,16 +3,28 @@ import Navbar from '../components/Navbar';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-class JoinPage extends React.Component {
+class SignUpPage extends React.Component {
     render() {
         const { history } = this.props;
         const csrftoken = Cookies.get('csrftoken');
         return (
             <div>
                 <Navbar history={history} ></Navbar>
-                email: <input type="text" name="email"></input><br></br>
-                Password: <input type="password" name="password1"></input><br></br>
-                confirm: <input type="password" name="password2"></input><br></br>
+                <div className="mt-5 mx-auto w-25">
+                    <form>
+                        <div>
+                            <label className="form-label">email</label>
+                            <input type="text" className="form-control" name="email"></input><br></br>
+                        </div>
+                        <div>
+                            <label className="password" name="password1">password</label>
+                            <input type="password" className="form-control"></input><br></br>
+                            <label className="password" name="password2">confirm</label>
+                            <input type="password" className="form-control"></input><br></br>
+                        </div>
+                        <input type="submit"></input>
+                    </form>
+                </div>
                 <a onClick={() => {
                     const email = document.querySelector("input[name=email]").value;
                     const password1 = document.querySelector("input[name=password1").value;
@@ -33,10 +45,10 @@ class JoinPage extends React.Component {
                         console.log(res);
                     });
 
-                }}>Join</a>
+                }}>Sign up</a>
             </div>
         );
     }
 }
 
-export default JoinPage;
+export default SignUpPage;
