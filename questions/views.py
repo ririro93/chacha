@@ -9,17 +9,18 @@ from .models import (
     Question,
     Choice,
     Answer,
+    Comment,
 )
 from .serializers import (
     QuestionSerializer,
     ChoiceSerializer,
     ChoiceSerializerAnswer,
     AnswerSerializer,
+    CommentSerializer,
 )
 
 # Create your views here.
 class QuestionView(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny]
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
 
@@ -51,26 +52,26 @@ class QuestionView(viewsets.ModelViewSet):
     @action(detail=False, url_path='main-question')
     def main_question(self, request, *args, **kwargs):
         data = {}
-        question = get_object_or_404(Question, main_question=True)
+        question = get_object_or_404(Question, is_main_question=True)
         serializer = QuestionSerializer(question)
         data['question'] = serializer.data
 
-        print('###', question.choices.all())
         data['question']['choices'] = []
         for choice in question.choices.all():
             choice_serializer = ChoiceSerializerAnswer(choice)
-            # choice_serializer = ChoiceSerializer(choice, answer=False)
             data['question']['choices'].append(choice_serializer.data)
             
         return Response(data)
 
 class ChoiceView(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny]
     serializer_class = ChoiceSerializer
     queryset = Choice.objects.all()
 
 
 class AnswerView(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny]
     serializer_class = AnswerSerializer
     queryset = Answer.objects.all()
+
+class CommentView(viewsets.ModelViewSet):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
