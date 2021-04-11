@@ -3,17 +3,50 @@ import Navbar from '../components/Navbar';
 import Main from '../components/Main';
 import Wall from '../components/Wall';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+
 
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      questionList: [],
-      userList: []
+      mainQuestion: null
     }
   }
 
   componentDidMount() {
+    axios.get('http://localhost:8000/api/questions/main/').then(res => {
+      const mainQuestion = res.data.question;
+      mainQuestion.choices = [res.data.choice1, res.data.choice2];
+      this.setState({
+        mainQuestion: mainQuestion
+      });
+    });
+      /*
+    const csrftoken = Cookies.get('csrftoken');
+    axios.post('http://localhost:8000/accounts/login/', {
+      email: 'ephong93@gmail.com',
+      password: '14321432'
+    }, {
+      headers: {
+        'X-CSRFToken': csrftoken
+      }
+    }).then(res => {
+      const tokenKey = res.data.key;
+      console.log(tokenKey);
+      axios.get('http://localhost:8000/api/questions/main/', {
+        token: tokenKey
+      }).then(res => {
+        this.setState({
+          mainQuestion: res.data
+        });
+        console.log(res.data);
+      });
+      
+    });
+*/
+    
+    /*
     const mainQuestion = {
       'author': 0,
       'content': 'Question content',
@@ -38,18 +71,10 @@ class MainPage extends React.Component {
         }
       ]
     }
-    const questionList = [];
-    this.setState({
-      mainQuestion: mainQuestion,
-      questionList: questionList
-    });
+    */
 
     /*
-    axios.get('http://localhost:8000/api/questions/main').then(res => {
-      this.setState({
-        mainQuestion: res.data
-      });
-    });
+    
     axios.get('http://localhost:8000/api/questions/list').then(res => {
       this.setState({
         questionList: res.data
@@ -63,6 +88,7 @@ class MainPage extends React.Component {
     const { history } = this.props;
     const { mainQuestion, questionList } = this.state;
 
+    
     return (
       <div className="App">
         <Navbar history={history} ></Navbar>

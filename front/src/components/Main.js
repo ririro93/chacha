@@ -12,7 +12,7 @@ class Main extends React.Component {
         const { mainQuestion } = this.props;
         if (mainQuestion) {
             const labels = mainQuestion.choices.map(choice => choice.content);
-            const data = mainQuestion.choices.map(choice => choice.value);
+            const data = [30, 60, 10]; //mainQuestion.choices.map(choice => choice.value);
             const ctx = document.getElementById('myChart').getContext('2d');
             const myChart = new Chart(ctx, {
                 type: 'bar',
@@ -67,7 +67,7 @@ class Main extends React.Component {
         const { mainQuestion } = this.props;
         return (
             <div className="py-5 container mx-auto text-center">
-                <h1 className="display-4 fw-normal">{mainQuestion ? mainQuestion.content : ''}</h1>
+                <h1 className="display-4 fw-normal">{ mainQuestion ? mainQuestion.content : ''}</h1>
                 <canvas id="myChart" width="400" height="100"></canvas>
                 <p className="fs-5 text-muted">힝냥닝냥농뇽늉늉힝냥닝냥농뇽늉늉힝냥닝냥농뇽늉늉힝냥닝냥농뇽늉늉힝냥닝냥농뇽늉늉힝냥닝냥농뇽늉늉</p>
             </div>
