@@ -47,4 +47,4 @@
 [backend]
 - how to add new custom views to a viewset
 - how to create a read_only field in a serializer for respose data
-- how to use JWT for auth
+- how to use JWT for auth (access token, refresh token and blacklisting)
