@@ -44,5 +44,7 @@
 - three.js 써서 그래프 보여줄 때 돌릴 수 있는 정육면체 각 면에 그래프 하나씩 보여줘보고 싶다
 
 ## 배운거
+[backend]
 - how to add new custom views to a viewset
 - how to create a read_only field in a serializer for respose data
+- how to use JWT for auth
