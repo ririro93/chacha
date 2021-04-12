@@ -138,7 +138,7 @@ CORS_ORIGIN_WHITELIST = [
 # Auth: dj-rest-auth + jwt
 AUTH_USER_MODEL = 'accounts.CustomUser'
 REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'chacha-auth'
+JWT_AUTH_COOKIE = 'chacha-access-token'
 JWT_AUTH_REFRESH_COOKIE = 'chacha-refresh-token'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
