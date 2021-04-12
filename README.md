@@ -1,6 +1,6 @@
 # chacha
 > Django REST Framework(backend) + React(frontend) <br>
-트위터가 글 중심, 인스타가 사진 중심 커뮤니티라면 이 앱은 그래프 중심 커뮤니티랄까
+트위터가 글 중심, 인스타가 사진 중심 커뮤니티라면 이 앱은 그래프 중심 커뮤니티
 
 ## 목표
 - try Django REST Framework
