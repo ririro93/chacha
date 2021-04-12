@@ -21,9 +21,10 @@
             - [x] -> answer 정보는 보내지 말기 (브라우저로 볼 수 있으니깐)
 - Backend
     - auth
-        - [ ] rest-auth 3rd party 라이브러리 말고 그냥 기본 rest framework jwt 써보기
+        - [x] rest-auth 3rd party 라이브러리 말고 그냥 기본 rest framework jwt 써보기
         - [ ] social-login 추가
         - [ ] email verification 추가
+        - [ ] question ModelViewSet 에서 method 별 permission 다르게 설정 -> GET: allowany, POST: IsAuthenticated 
 - Frontend
     - [ ] 대충 누르지 않게끔 장치
         - [ ] 회원가입 한 유저만 (?)

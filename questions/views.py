@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from rest_framework import viewsets, generics, permissions, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 from .models import (
     Question,
@@ -21,33 +22,38 @@ from .serializers import (
 
 # Create your views here.
 class QuestionView(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
 
+    # @permission_classes([IsAuthenticated])
     def create(self, request, *args, **kwargs):
         """
         create 할 때 choice까지 같이 넣도록 customizing 해주기
         """
         print('## request.data', request.data)
+        if request.user.is_authenticated:
+            # create new question
+            choices = request.data.pop('choices')
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
 
-        # create new question
-        choices = request.data.pop('choices')
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-
-        # create new choices
-        question = Question.objects.get(pk=serializer.data.get('id'))
-        for choice in choices:
-            Choice.objects.create(
-                content=choice,
-                question=question,
-            )
-        
-        # return data
-        new_serializer = QuestionSerializer(question)
-        return Response(new_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+            # create new choices
+            question = Question.objects.get(pk=serializer.data.get('id'))
+            for choice in choices:
+                Choice.objects.create(
+                    content=choice,
+                    question=question,
+                )
+            
+            # return data
+            new_serializer = QuestionSerializer(question)
+            return Response(new_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            content = {'not authenticated': 'please log in'}
+            return Response(content, status=status.HTTP_403_FORBIDDEN)
 
     @action(detail=False, url_path='main-question')
     def main_question(self, request, *args, **kwargs):
