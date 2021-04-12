@@ -22,9 +22,11 @@
 - Backend
     - auth
         - [x] rest-auth 3rd party 라이브러리 말고 그냥 기본 rest framework jwt 써보기
+            - 기본 rest framework 에는 jwt 없음 -> dj-rest-auth + simplejwt 사용
         - [ ] social-login 추가
         - [ ] email verification 추가
-        - [ ] question ModelViewSet 에서 method 별 permission 다르게 설정 -> GET: allowany, POST: IsAuthenticated 
+        - [x] question ModelViewSet 에서 method 별 permission 다르게 설정 -> GET: allowany, POST: IsAuthenticated 
+            - 복잡해서 create method에서 if user.is_authenticed 사용
         - [x] logout 하면 401 status 와 "detail": "Refresh token was not included in request data." 라는 메세지가 온다
             - [github issues](https://github.com/iMerica/dj-rest-auth/issues/96): 여기 보면 middleware 추가해주면 된다고 해서 시도
             - 문제: refresh token은 브라우저의 http-only cookie에 저장되고 logout 요청을 보낼 때 header에 이 refresh token 정보를 넣어서 보내준다 하지만 djangorestframework-simplejwt라는 라이브러리는 body로 밖에 refresh token을 못 받는다
