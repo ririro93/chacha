@@ -86,7 +86,7 @@ class Main extends React.Component {
     }
 
     render() {
-        const { questionList } = this.props;
+        const { questionList, commentList } = this.props;
         if (questionList) {
             let { chartList } = this.state;
             for (let chart of chartList) {
@@ -122,6 +122,13 @@ class Main extends React.Component {
                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                         <span className="visually-hidden">Next</span>
                     </button>
+                </div>
+
+                <div>
+                    <textarea placeholder="Write your comments"></textarea><button>Submit</button>
+                    <div>
+                        { commentList ? commentList.map(comment => <div key={comment.id}>{comment.content} author: {comment.author}, choice: {comment.choice}</div>) : null}
+                    </div>
                 </div>
             </div>
         )

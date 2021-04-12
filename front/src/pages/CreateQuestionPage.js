@@ -74,7 +74,6 @@ class CreateQuestionPage extends React.Component {
                         <div className="d-flex justify-content-end">
                             <button className="btn btn-primary mt-3" style={{cursor: 'pointer'}} onClick={() => {
                                 const { content, choices } =  this.state;
-                                console.log(content, choices);
                                 const reqData = {
                                     'content': content,
                                     'choices': choices
