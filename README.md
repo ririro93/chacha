@@ -25,6 +25,14 @@
         - [ ] social-login 추가
         - [ ] email verification 추가
         - [ ] question ModelViewSet 에서 method 별 permission 다르게 설정 -> GET: allowany, POST: IsAuthenticated 
+        - [x] logout 하면 401 status 와 "detail": "Refresh token was not included in request data." 라는 메세지가 온다
+            - [github issues](https://github.com/iMerica/dj-rest-auth/issues/96): 여기 보면 middleware 추가해주면 된다고 해서 시도
+            - 문제: refresh token은 브라우저의 http-only cookie에 저장되고 logout 요청을 보낼 때 header에 이 refresh token 정보를 넣어서 보내준다 하지만 djangorestframework-simplejwt라는 라이브러리는 body로 밖에 refresh token을 못 받는다
+            - -> 정리: dj-rest-auth가 브라우저의 cookie에 저장된 access-token과 refresh-token은 지워주지만 body로 refresh token을 받지 못한 simplejwt 라이브러리는 blacklist에 해당 refresh-token을 추가하지 못한다
+            - -> 즉 로그아웃을 했지만 기존 refresh-token으로 새로운 access-token의 발급을 요청하면 새로 발급해준다.
+            - 해결: request의 header로 들어오는 refresh-token 정보를 middleware를 통해 body로 넘겨주는 작업을 해서 simplejwt 라이브러리가 해당 refresh-token을 blacklist에 추가할 수 있도록 해준다.
+            - -> 링크에 있는 코드에는 logout url에 해당하는 경우에 이 작업을 해주는 부분이 없어서 따로 추가 해줘야됨 
+            - -> logout body에 {} 처럼 공간을 만들어서 비지 않게 보내야지 refresh-token을 추가해 줄 수 있음
 - Frontend
     - [ ] 대충 누르지 않게끔 장치
         - [ ] 회원가입 한 유저만 (?)

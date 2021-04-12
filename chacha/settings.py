@@ -54,6 +54,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # these are added to move refresh-tokens from header to body for simplejwt to work correctly
+    'chacha.middleware.MoveJWTCookieIntoTheBody',
+    'chacha.middleware.MoveJWTRefreshCookieIntoTheBody'
 ]
 
 ROOT_URLCONF = 'chacha.urls'
