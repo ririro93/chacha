@@ -1,6 +1,6 @@
 import React from 'react';
 import Chart from 'chart.js/auto';
-import ChoiceList from './ChoiceList';
+import ChoiceList from 'components/ChoiceList';
 
 class Main extends React.Component {
     constructor(props) {

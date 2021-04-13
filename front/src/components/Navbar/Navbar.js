@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import SignIn from 'components/SignInModal';
+import SignUp from 'components/SignUpModal';
 import './Navbar.css';
 
 class Navbar extends React.Component {

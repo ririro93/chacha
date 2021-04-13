@@ -1,6 +1,6 @@
 import React from 'react';
 import './ChoiceList.css';
-import AddChoice from './AddChoice';
+import AddChoice from 'components/AddChoiceModal';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import './modal.css';
+import './AddChoiceModal.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-class AddChoice extends React.Component {
+class AddChoiceModal extends React.Component {
     addChoice() {
         const csrftoken = Cookies.get('csrftoken');
         const { questionId } = this.props;
@@ -48,4 +48,4 @@ class AddChoice extends React.Component {
     }
 }
 
-export default AddChoice;
+export default AddChoiceModal;
