@@ -1,6 +1,8 @@
 import React from 'react';
 import Chart from 'chart.js/auto';
 import ChoiceList from 'components/ChoiceList';
+import Comments from 'components/Comments';
+
 
 class Main extends React.Component {
     constructor(props) {
@@ -32,50 +34,36 @@ class Main extends React.Component {
         });
     }
 
+    getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
     createChart(question, index) {
-        const labels = question.choices.map(choice => '');
+        const labels = question.choices.map(choice => 'Vote to check the result');
         const ans_counts = question.choices.map(choice => choice.get_ans_count);
         const canvas = document.getElementById('canvas-'+index);
         const ctx = canvas.getContext('2d');
+        const colors = [];
+        for (let i = 0; i < question.choices.length; i++) {
+            colors.push(this.getRandomColor());
+        }
         return new Chart(ctx, {
-            type: 'bar',
+            type: 'pie',
             data: {
                 labels: labels,
                 datasets: [{
                     data: ans_counts,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                    ],
-                    borderWidth: 1
+                    borderWidth: 1,
+                    backgroundColor: colors
                 }]
             },
             options: {
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    },
-                    y: {
-                        grid: {
-                            display: false
-                        },
-                        beginAtZero: true,
-                        ticks: {
-                            font: {
-                                size: 20
-                            }
-                        }
-                    }
-                },
+                responsive: false,
                 plugins: {
                     legend: {
                         display: false,
@@ -95,18 +83,18 @@ class Main extends React.Component {
         }
         
         return (
-            <div>
-                <h1>오늘의 질문</h1>
+            <div className="p-5">
+                <h1 className="text-center">오늘의 질문</h1>
                 <div className="py-5 mx-auto text-center carousel carousel-dark slide" id="carousel-main-question">
                     <div className="carousel-innter">
                         {
                             questionList ? 
                             questionList.map((question, index) => 
                                 <div className={"carousel-item" + (index === 0 ? "active" : "")} key={index}>
-                                    <div className="d-block w-75 mx-auto">
-                                        <h2 className="display-4 fw-normal">{question.content}</h2>
-                                            <ChoiceList choiceList={question.choices} questionId={question.id} ></ChoiceList>
-                                        <canvas id={"canvas-"+index} width="400" height="100"></canvas>
+                                    <div className="d-flex flex-column gap-5 align-items-center w-75 mx-auto">
+                                        <h2 className="fw-normal">{question.content}</h2>
+                                        <ChoiceList choiceList={question.choices} questionId={question.id} ></ChoiceList>
+                                        <canvas id={"canvas-"+index} width="400" height="400"></canvas>
                                         <p className="fs-5 text-muted">abc</p>
                                     </div>
                                 </div>
@@ -125,10 +113,7 @@ class Main extends React.Component {
                 </div>
 
                 <div>
-                    <textarea placeholder="Write your comments"></textarea><button>Submit</button>
-                    <div>
-                        { commentList ? commentList.map(comment => <div key={comment.id}>{comment.content} author: {comment.author}, choice: {comment.choice}</div>) : null}
-                    </div>
+                    <Comments commentList={commentList} ></Comments>
                 </div>
             </div>
         )

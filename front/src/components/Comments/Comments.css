@@ -1,0 +1,10 @@
+.comment-item {
+    position: relative;
+    border-bottom: 1px solid #ddd;
+}
+
+.comment-item-info {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
