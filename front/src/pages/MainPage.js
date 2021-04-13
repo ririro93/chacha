@@ -25,7 +25,8 @@ class MainPage extends React.Component {
       const mainQuestion = res.data.question;
       this.setState({
         mainQuestion: [mainQuestion]
-      })
+      });
+      console.log(res);
     });
 
     axios.get('api/comments/').then(res => {
@@ -37,12 +38,12 @@ class MainPage extends React.Component {
   }
 
   render() {
-    const { history } = this.props;
+    const { history, globalInfo } = this.props;
     const { questionList, mainQuestion, commentList } = this.state;
     
     return (
       <div className="App">
-        <Navbar history={history} ></Navbar>
+        <Navbar history={history} globalInfo={globalInfo} ></Navbar>
         <div className="container">
           <div className="row">
             <Main questionList={mainQuestion} commentList={commentList}>

@@ -23,7 +23,6 @@ class ChoiceList extends React.Component {
 
     render() {
         const { choiceList, questionId } = this.props;
-        console.log(choiceList, questionId);
         return (
             <div className="card w-25">
                 <ul className="list-group list-group-flush">

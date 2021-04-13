@@ -78,7 +78,7 @@ class CreateQuestionPage extends React.Component {
                                     'content': content,
                                     'choices': choices
                                 };
-                                axios.post('http://localhost:8000/api/questions/', 
+                                axios.post('api/questions/', 
                                     reqData,
                                     {
                                         headers: {

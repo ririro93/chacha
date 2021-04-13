@@ -46,7 +46,7 @@ class Navbar extends React.Component {
 
     }
     render() {
-        const { history } = this.props;
+        const { history, globalInfo } = this.props;
         const { suggestionList } = this.state;
 
         return (
@@ -78,7 +78,7 @@ class Navbar extends React.Component {
                 
                 {// Login modal
                 }
-                <SignIn></SignIn>
+                <SignIn globalInfo={globalInfo}></SignIn>
                 <SignUp></SignUp>
             </nav>
             
