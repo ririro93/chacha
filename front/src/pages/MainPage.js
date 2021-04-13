@@ -14,21 +14,21 @@ class MainPage extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8000/api/questions/').then(res => {
+    axios.get('api/questions/').then(res => {
       const questionList = res.data;
       this.setState({
         questionList: questionList
       })
     });
 
-    axios.get('http://localhost:8000/api/questions/main-question/').then(res => {
+    axios.get('api/questions/main-question/').then(res => {
       const mainQuestion = res.data.question;
       this.setState({
         mainQuestion: [mainQuestion]
       })
     });
 
-    axios.get('http://localhost:8000/api/comments/').then(res => {
+    axios.get('api/comments/').then(res => {
       this.setState({
         commentList: res.data
       });

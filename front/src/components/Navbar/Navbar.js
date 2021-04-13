@@ -20,7 +20,7 @@ class Navbar extends React.Component {
         });
 
         if (questionQuery) {
-            axios.get('http://localhost:8000/api/questions/').then(res => {
+            axios.get('api/questions/').then(res => {
                 this.setState({
                     suggestionList: res.data
                 });

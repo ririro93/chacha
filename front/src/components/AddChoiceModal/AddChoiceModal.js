@@ -8,7 +8,7 @@ class AddChoiceModal extends React.Component {
         const csrftoken = Cookies.get('csrftoken');
         const { questionId } = this.props;
         const choiceContent = document.getElementById('choice-content').value;
-        axios.post('http://localhost:8000/api/choices/',
+        axios.post('api/choices/',
             {
                 'author': 1,
                 'question': questionId,

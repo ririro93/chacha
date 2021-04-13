@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 class ChoiceList extends React.Component {
     vote(choice) {
         const csrftoken = Cookies.get('csrftoken');
-        axios.post('http://localhost:8000/api/answers/', 
+        axios.post('api/answers/', 
         {
             author: 1,
             choice: choice.id

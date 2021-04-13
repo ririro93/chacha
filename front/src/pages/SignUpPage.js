@@ -30,7 +30,7 @@ class SignUpPage extends React.Component {
                     const password1 = document.querySelector("input[name=password1").value;
                     const password2 = document.querySelector("input[name=password2").value;
                     
-                    axios.post('http://localhost:8000/accounts/auth/register/',
+                    axios.post('accounts/auth/register/',
                         {
                             email: email,
                             password1: password1,
