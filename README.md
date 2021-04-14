@@ -1,8 +1,9 @@
 # chacha
-> Django REST Framework(backend) + React(frontend) <br>
+> Django REST Framework(ririro93) + React(ephong93) <br>
 트위터가 글 중심, 인스타가 사진 중심 커뮤니티라면 이 앱은 그래프 중심 커뮤니티
 
 ## 목표
+[ririro93]
 - try Django REST Framework
 - try JWT(Json Web Token) auth
 
@@ -41,10 +42,11 @@
         - [ ] 30초 후에 누를 수 있게하기 (?)
 
 ## 해보고 싶은거
+[ririro93]
 - three.js 써서 그래프 보여줄 때 돌릴 수 있는 정육면체 각 면에 그래프 하나씩 보여줘보고 싶다
 
 ## 배운거
-[backend]
+[ririro93]
 - how to add new custom views to a viewset
 - how to create a read_only field in a serializer for respose data
 - how to use JWT for auth (access token, refresh token and blacklisting)
