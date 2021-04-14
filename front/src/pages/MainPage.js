@@ -39,8 +39,9 @@ class MainPage extends React.Component {
 
   render() {
     const { history, globalInfo } = this.props;
+    console.log('history:', history);
+    console.log(this.props);
     const { questionList, mainQuestion, commentList } = this.state;
-    
     return (
       <div className="App">
         <Navbar history={history} globalInfo={globalInfo} ></Navbar>

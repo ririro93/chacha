@@ -9,49 +9,92 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+    if (localStorage.getItem('authorized') === null) 
+      localStorage.setItem('authorized', false);
+    const authorized = localStorage.getItem('authorized');
     this.state = {
       globalInfo: {
         userInfo: null,
-        accessToken: null,
-        refreshToken: null,
-        signIn: this.signIn.bind(this)
+        signIn: this.signIn.bind(this),
+        signOut: this.signOut.bind(this),
+        authorized: authorized
       }
     };
   }
 
-
+  componentDidMount() {
+    if (localStorage.getItem('authorized') === null) 
+      localStorage.setItem('authorized', false);
+    const authorized = localStorage.getItem('authorized');
+    this.setState({
+      globalInfo: {
+        ...this.state.globalInfo,
+        authorized: authorized
+      }
+    });
+  }
   signIn(email, password) {
     const csrftoken = Cookies.get('csrftoken');
     axios.post('api/accounts/login/',
         {
-            username: '',
-            email: email,
-            password: password
+          username: '',
+          email: email,
+          password: password
         },
         {
-            headers: {
-                'X-CSRFToken': csrftoken
-            }
+          headers: {
+              'X-CSRFToken': csrftoken
+          }
         }).then(res => {
-            const accessToken = res.data.access_token;
-            const refreshToken = res.data.refresh_token;
-            this.setState({
-              accessToken: accessToken,
-              refreshToken: refreshToken
-            });
-            console.log(res.data);
+          console.log('Login success!');
+          localStorage.setItem('authorized', true);
+          this.setState({
+            globalInfo: {
+              ...this.state.globalInfo,
+              authorized: true
+            }
+          });
         }).catch(res => {
-            console.log(res);
             console.log('Login failed!');
+            localStorage.setItem('authorized', false);
+            this.setState({
+              globalInfo: {
+                ...this.state.globalInfo,
+                authorized: false
+              }
+            });
         });
+  }
+
+  signOut() {
+    const csrftoken = Cookies.get('csrftoken');
+    axios.post('api/accounts/logout/',
+    {
+    },
+    {
+      headers: {
+          'X-CSRFToken': csrftoken
+      }
+    }).then(res => {
+      console.log('Logout success!');
+      localStorage.setItem('authorized', false);
+      this.setState({
+        globalInfo: {
+          ...this.state.globalInfo,
+          authorized: false
+        }
+      });
+    }).catch(res => {
+      console.log('Logout failed!');
+    });
   }
 
   render() {
     const { globalInfo } = this.state;
     return(
       <Router>
-        <Route path='/' exact component={() => <MainPage globalInfo={globalInfo}></MainPage>}></Route>
-        <Route path='/create-question' component={() => <CreateQuestionPage globalInfo={globalInfo}></CreateQuestionPage>}></Route>
+        <Route path='/' exact component={(props) => (<MainPage {...props} globalInfo={globalInfo} ></MainPage>)}></Route>
+        <Route path='/create-question' component={(props) => <CreateQuestionPage {...props} globalInfo={globalInfo}></CreateQuestionPage>}></Route>
       </Router>
     )
   }

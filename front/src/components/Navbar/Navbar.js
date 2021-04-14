@@ -48,7 +48,7 @@ class Navbar extends React.Component {
     render() {
         const { history, globalInfo } = this.props;
         const { suggestionList } = this.state;
-
+        const { authorized, signOut } = globalInfo;
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="d-flex align-items-center fs-5 text-white">
@@ -72,7 +72,14 @@ class Navbar extends React.Component {
                          <button type="button" className="btn btn-secondary" onClick={() => {history.push('/create-question')}}>New question</button>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" data-bs-toggle="modal" data-bs-target="#sign-in-modal">Sign in</a>
+                        {
+                            authorized ? 
+                            <a className="nav-link" onClick={() => {
+                                signOut();
+                            }}>Sign out</a>
+                            :
+                            <a className="nav-link" data-bs-toggle="modal" data-bs-target="#sign-in-modal">Sign in</a>
+                        }
                     </li>
                 </ul>
                 
