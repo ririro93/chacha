@@ -165,7 +165,7 @@ SIMPLE_JWT = {
     'AUDIENCE': None,
     'ISSUER': None,
 
-    'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),  # prefix before the token
+    'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),  # tuple of all possible prefixes before the token
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',

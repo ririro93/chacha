@@ -19,5 +19,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/accounts/', include('accounts.urls')),
-    re_path('.*', TemplateView.as_view(template_name='index.html')),
+    # re_path('.*', TemplateView.as_view(template_name='index.html')),  # 앞으로 front 확인은 일일이 빌드 안하고 리액트 서버 새로 켜서 봐도 될듯? 
 ]
