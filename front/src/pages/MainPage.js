@@ -26,25 +26,21 @@ class MainPage extends React.Component {
       this.setState({
         mainQuestion: [mainQuestion]
       });
-      console.log(res);
     });
 
     axios.get('api/comments/').then(res => {
       this.setState({
         commentList: res.data
       });
-      console.log(this.state.commentList);
     });
   }
 
   render() {
-    const { history, globalInfo } = this.props;
-    console.log('history:', history);
-    console.log(this.props);
+    const { history } = this.props;
     const { questionList, mainQuestion, commentList } = this.state;
     return (
       <div className="App">
-        <Navbar history={history} globalInfo={globalInfo} ></Navbar>
+        <Navbar history={history} ></Navbar>
         <div className="container">
           <div className="row">
             <Main questionList={mainQuestion} commentList={commentList}>

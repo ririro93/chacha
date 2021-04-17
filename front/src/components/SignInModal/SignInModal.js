@@ -1,6 +1,8 @@
 import React from 'react';
 import './SignInModal.css';
 import { Link } from 'react-router-dom';
+import { Modal } from 'bootstrap';
+import { AuthContext } from 'AuthContext';
 
 class SignInModal extends React.Component {
     constructor(props) {
@@ -24,11 +26,9 @@ class SignInModal extends React.Component {
     }
 
     render() {
-        const { globalInfo } = this.props;
         const { email, password } = this.state;
-
-        const signIn = globalInfo.signIn;
-
+        const { history } = this.props;
+        const { signIn } = this.context;
         return (
             <div className="modal fade" id="sign-in-modal" tabindex="-1">
                 <div className="modal-dialog">
@@ -42,7 +42,9 @@ class SignInModal extends React.Component {
                             <input id="input-password" className="form-control  mx-auto my-2" type="password" placeholder="Password" onChange={this.handleChange.bind(this)} value={password}></input>
                         </div>
                         <div className="signin-footer d-grid gap-2 mt-3 mb-5 mx-auto">
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => {signIn(email, password);}}>Sign in</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => {
+                                signIn(email, password);
+                            }}>Sign in</button>
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <div className="text-end">
                                 <Link to="/" data-bs-dismiss="modal" className="text-decoration-none fs-6">Forgot password</Link><br></br>
@@ -55,5 +57,7 @@ class SignInModal extends React.Component {
         )
     }
 }
+
+SignInModal.contextType = AuthContext;
 
 export default SignInModal;

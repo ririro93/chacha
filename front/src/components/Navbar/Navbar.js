@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React from 'react';
-import SignIn from 'components/SignInModal';
-import SignUp from 'components/SignUpModal';
+import SignInModal from 'components/SignInModal';
+import SignUpModal from 'components/SignUpModal';
 import './Navbar.css';
+import { AuthContext } from 'AuthContext';
 
 class Navbar extends React.Component {
     constructor(props) {
@@ -31,7 +32,7 @@ class Navbar extends React.Component {
             });
         }
     }
-    
+
     componentDidMount() {
         const searchQuestionInput = document.querySelector('.search-question');
         searchQuestionInput.addEventListener('focusout', e => {
@@ -43,12 +44,14 @@ class Navbar extends React.Component {
             const suggestions = document.querySelector('.suggestions');
             suggestions.hidden = false;
         })
-
     }
+
     render() {
-        const { history, globalInfo } = this.props;
+        const { history } = this.props;
         const { suggestionList } = this.state;
-        const { authorized, signOut } = globalInfo;
+        const { signOut, userEmail } = this.context;
+        const isAuthenticated = userEmail !== null;
+
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="d-flex align-items-center fs-5 text-white">
@@ -64,20 +67,19 @@ class Navbar extends React.Component {
                             </ol>
                             : ''
                         }
-                    
                     </div>
                 </div>
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                         <button type="button" className="btn btn-secondary" onClick={() => {history.push('/create-question')}}>New question</button>
+                         <button type="button" className="btn btn-secondary" onClick={() => {
+                             if (isAuthenticated) 
+                                history.push('/create-question');
+                             else
+                                console.log('Please login!');
+                             }}>New question</button>
                     </li>
                     <li className="nav-item">
-                        {
-                            authorized ? 
-                            <a className="nav-link" onClick={() => {
-                                signOut();
-                            }}>Sign out</a>
-                            :
+                        { isAuthenticated ? <><span className="text-white">Hello, {localStorage['user-email']}!</span> <a className="nav-link" onClick={() => signOut()}>Sign out</a> </> :
                             <a className="nav-link" data-bs-toggle="modal" data-bs-target="#sign-in-modal">Sign in</a>
                         }
                     </li>
@@ -85,12 +87,14 @@ class Navbar extends React.Component {
                 
                 {// Login modal
                 }
-                <SignIn globalInfo={globalInfo}></SignIn>
-                <SignUp></SignUp>
+                <SignInModal history={history}></SignInModal>
+                <SignUpModal history={history}></SignUpModal>
             </nav>
             
         )
     }
 }
+
+Navbar.contextType = AuthContext;
 
 export default Navbar;
