@@ -4,14 +4,16 @@ import SignInModal from 'components/SignInModal';
 import SignUpModal from 'components/SignUpModal';
 import './Navbar.css';
 import { AuthContext } from 'AuthContext';
+import { Modal } from 'bootstrap';
 
 class Navbar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             questionQuery: '',
-            suggestionList: []
-        }
+            suggestionList: [],
+            signInModal: null
+        };
     }
 
     handleChange(e) {
@@ -43,12 +45,20 @@ class Navbar extends React.Component {
         searchQuestionInput.addEventListener('focusin', e => {
             const suggestions = document.querySelector('.suggestions');
             suggestions.hidden = false;
-        })
+        });
+
+
+        const signInModalEl = document.getElementById('sign-in-modal');
+        const signInModal = new Modal(signInModalEl);
+
+        this.setState({
+            signInModal: signInModal
+        });
     }
 
     render() {
         const { history } = this.props;
-        const { suggestionList } = this.state;
+        const { suggestionList, signInModal } = this.state;
         const { signOut, userEmail } = this.context;
         const isAuthenticated = userEmail !== null;
 
@@ -71,23 +81,26 @@ class Navbar extends React.Component {
                 </div>
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                         <button type="button" className="btn btn-secondary" onClick={() => {
-                             if (isAuthenticated) 
-                                history.push('/create-question');
-                             else
-                                console.log('Please login!');
-                             }}>New question</button>
+                        { isAuthenticated ? 
+                            <button type="button" className="btn btn-secondary" onClick={() => {history.push('/create-question');}}>New question</button>
+                            :
+                            <button type="button" className="btn btn-secondary" onClick={() => {
+                                    signInModal.show();
+                                }}>New question</button>
+                        }
                     </li>
                     <li className="nav-item">
-                        { isAuthenticated ? <><span className="text-white">Hello, {localStorage['user-email']}!</span> <a className="nav-link" onClick={() => signOut()}>Sign out</a> </> :
-                            <a className="nav-link" data-bs-toggle="modal" data-bs-target="#sign-in-modal">Sign in</a>
+                        { isAuthenticated ? 
+                            <><span className="text-white">Hello, {localStorage['user-email']}!</span> <a className="nav-link" onClick={() => signOut()}>Sign out</a> </> 
+                            :
+                            <a className="nav-link" onClick={() => {signInModal.show();}}>Sign in</a>
                         }
                     </li>
                 </ul>
                 
                 {// Login modal
                 }
-                <SignInModal history={history}></SignInModal>
+                <SignInModal history={history} modal={signInModal}></SignInModal>
                 <SignUpModal history={history}></SignUpModal>
             </nav>
             

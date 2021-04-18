@@ -18,7 +18,7 @@ class App extends React.Component {
 
   signIn(email, password) {
     const csrftoken = Cookies.get('csrftoken');
-    axios.post('api/accounts/login/',
+    return axios.post('api/accounts/login/',
         {
             username: '',
             email: email,
@@ -34,8 +34,10 @@ class App extends React.Component {
             this.setState({
               userEmail: email
             });
+            return true;
         }).catch(res => {
             console.log('Login failed!');
+            return false;
         }
     );
   }

@@ -32,7 +32,7 @@ class SignUpModal extends React.Component {
         const { signUp } = this.context;
         const { email, password1, password2 } = this.state;
         return (
-            <div className="modal fade" id="sign-up-modal" tabindex="-1">
+            <div className="modal fade" id="sign-up-modal" tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content d-flex">
                         <div className="signup-header mx-auto mt-5 mb-3">

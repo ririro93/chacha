@@ -13,7 +13,7 @@ class Main extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        if (this.props != nextProps) return true;
+        if (this.props !== nextProps) return true;
         return false;
     }
 

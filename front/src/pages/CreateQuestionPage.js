@@ -2,6 +2,8 @@ import React from 'react';
 import Navbar from 'components/Navbar';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { AuthContext } from 'AuthContext';
+
 
 class CreateQuestionPage extends React.Component {
     constructor(props) {
@@ -12,6 +14,16 @@ class CreateQuestionPage extends React.Component {
         }
     }
   
+    componentDidMount() {
+        const { history } = this.props;
+        const { userEmail } = this.context;
+        const isAuthenticated = userEmail !== null;
+        if (!isAuthenticated) {
+            history.push('/');
+        }
+    }
+
+
     addItem() {
         const choiceList = document.getElementById('choice-list');
         const choiceLabel = document.createElement('label');
@@ -95,5 +107,7 @@ class CreateQuestionPage extends React.Component {
         );
     }
 }
+
+CreateQuestionPage.contextType = AuthContext;
 
 export default CreateQuestionPage;
