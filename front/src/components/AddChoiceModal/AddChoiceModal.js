@@ -27,7 +27,7 @@ class AddChoiceModal extends React.Component {
 
     render() {
         return (
-            <div className="modal fade" id="addchoice-modal" tabindex="-1">
+            <div className="modal fade" id="addchoice-modal" tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content d-flex">
                         <div className="addchoice-header mx-auto mt-5 mb-3">
