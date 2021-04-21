@@ -1,43 +1,55 @@
 import React from 'react';
 import './ChoiceList.css';
-import AddChoice from 'components/AddChoiceModal';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import { Radio, Input, Button } from 'antd';
+import { AppContext } from 'AppContext';
 
 class ChoiceList extends React.Component {
-    vote(choice) {
-        const csrftoken = Cookies.get('csrftoken');
-        axios.post('api/answers/', 
-        {
-            author: 1,
-            choice: choice.id
-        }, 
-        {
-            headers: {
-                'X-CSRFToken': csrftoken
-            }
-        }, res => {
-            console.log(res);
+    state = {
+        value: 1
+    };
+
+    onChange = e => {
+        this.setState({
+            value: e.target.value,
         });
-    }
+    };
 
     render() {
-        const { choiceList, questionId } = this.props;
+        const radioStyle = {
+            display: 'block',
+            height: '30px',
+            lineHeight: '30px',
+          };
+        const { value } = this.state;
+        const { choiceList } = this.props;
+        const { userEmail, setIsSignInModalVisible } = this.context;
+        const isAuthenticated = userEmail !== null;
+        
         return (
-            <div className="card w-25">
-                <ul className="list-group list-group-flush">
-                    { 
-                        choiceList ? choiceList.map(choice => 
-                            <li className="list-group-item" onClick={() => {this.vote(choice)}} key={choice.id}>{choice.content}</li>
-                        ) : ''
-                    }
-                    <li className="list-group-item" data-bs-toggle="modal" data-bs-target="#addchoice-modal">Add another</li>
-                </ul>
-                <AddChoice questionId={questionId}></AddChoice>
+            <div>
+                <Radio.Group onChange={this.onChange} value={value}>
+                    { choiceList.map((choice, i) => 
+                        <Radio style={radioStyle} value={i} key={i}>
+                            {choice.content}
+                        </Radio>)}
+                    <Radio style={radioStyle} value={choiceList.length}>
+                    More...
+                    {value === choiceList.length ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
+                    </Radio>
+                </Radio.Group>
+                <Button type="primary"
+                    onClick={() => {
+                        if (isAuthenticated) {
+                            console.log('vote'); // Need to be implemented
+                        } else {
+                            setIsSignInModalVisible(true);
+                        }
+                    }}>Vote!</Button>
             </div>
         )
     }
 }
 
+ChoiceList.contextType = AppContext;
 
 export default ChoiceList;

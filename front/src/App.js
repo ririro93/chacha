@@ -1,20 +1,36 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
-import CreateQuestionPage from './pages/CreateQuestionPage';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { AuthContext } from 'AuthContext';
-
+import { AppContext } from 'AppContext';
+import SignInModal from 'modals/SignInModal';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userEmail: localStorage['user-email'] === undefined ? null : localStorage['user-email']
+      userEmail: localStorage['user-email'] === undefined ? null : localStorage['user-email'],
+      isSignInModalVisible: false,
+      isSignUpModalVisible: false
     };
   }
+
+
+
+  setIsSignInModalVisible(flag) {
+    this.setState({
+      isSignInModalVisible: flag
+    });
+  }
+
+  setIsSignUpModalVisible(flag) { 
+    this.setState({
+      isSignUpModalVisible: flag
+    });
+  }
+
 
   signIn(email, password) {
     const csrftoken = Cookies.get('csrftoken');
@@ -43,6 +59,7 @@ class App extends React.Component {
   }
 
   signOut() {
+    console.log('signout');
     const csrftoken = Cookies.get('csrftoken');
     axios.post('api/accounts/logout/',
         {
@@ -57,14 +74,16 @@ class App extends React.Component {
             this.setState({
               userEmail: null
             });
+            return true;
         }).catch(res => {
             console.log('Logout failed!');
+            return false;
     });
   }
 
   signUp(email, password1, password2) {
     const csrftoken = Cookies.get('csrftoken');
-    axios.post('api/accounts/signup/',
+    return axios.post('api/accounts/signup/',
         {
           email: email,
           password1: password1,
@@ -76,8 +95,10 @@ class App extends React.Component {
           }
         }).then(res => {
             console.log('Signup success!');
+            return true;
         }).catch(res => {
             console.log('Signup failed!');
+            return false;
       });
   }
   
@@ -88,20 +109,23 @@ class App extends React.Component {
   }
 
   render() {
-    const { userEmail } = this.state;
+    const { userEmail, isSignInModalVisible, isSignUpModalVisible } = this.state;
 
     return(
-      <AuthContext.Provider value={{
+      <AppContext.Provider value={{
         signIn: this.signIn.bind(this),
         signOut: this.signOut.bind(this),
-        signUp: this.signUp,
+        signUp: this.signUp.bind(this),
+        isSignInModalVisible: isSignInModalVisible,
+        isSignUpModalVisible: isSignUpModalVisible,
+        setIsSignInModalVisible: this.setIsSignInModalVisible.bind(this),
+        setIsSignUpModalVisible: this.setIsSignUpModalVisible.bind(this),
         userEmail: userEmail
       }}>
         <Router>
           <Route path='/' exact component={(props) => (<MainPage {...props} ></MainPage>)}></Route>
-          <Route path='/create-question' component={(props) => <CreateQuestionPage {...props}></CreateQuestionPage>}></Route>
         </Router>
-      </AuthContext.Provider>
+      </AppContext.Provider>
     )
   }
 }

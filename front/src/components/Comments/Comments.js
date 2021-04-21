@@ -1,5 +1,7 @@
 import React from 'react';
 import './Comments.css';
+import { Comment, Empty, List, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 class Comments extends React.Component {
     constructor(props) {
@@ -9,18 +11,34 @@ class Comments extends React.Component {
 
     render() {
         const { commentList } = this.props;
+        
+        const data = commentList.map(comment => {
+            return {
+                author: comment.author,
+                avatar: <Avatar icon={<UserOutlined />} size="large" />,
+                content: comment.content,
+                datetime: comment.created_at
+            }
+        });
+
         return (
-            <div className="d-flex flex-column">
-                <textarea className="w-100 mb-2" style={{resize: 'none'}} placeholder="Write your comments"></textarea>
-                <button className="btn btn-primary align-self-end mb-3">Submit</button>
-                <div className="d-flex flex-column gap-3">
-                    { commentList ? commentList.map(comment => 
-                        <div key={comment.id} className="comment-item">{comment.content} 
-                            <div className="comment-item-info">author: {comment.author}, choice: {comment.choice}</div>
-                        </div>
-                    ) : null}
-                </div>
-            </div>
+            commentList ?
+                <List
+                    dataSource={data}
+                    renderItem={item => (
+                        <li>
+                            <Comment
+                                author={item.author}
+                                avatar={item.avatar}
+                                content={item.content}
+                                datetime={item.datetime}
+                            >
+                            </Comment>
+                        </li>
+                    )}></List>
+                :
+                <Empty></Empty>
+            
         );
     }
 }
