@@ -9,11 +9,14 @@ from questions.views import (
     CommentView,
 )
 
+from accounts.views import CustomUserUsernameView
+
 router = routers.DefaultRouter()
 router.register(r'questions', QuestionView, 'questions')
 router.register(r'choices', ChoiceView, 'choices')
 router.register(r'answers', AnswerView, 'answers')
 router.register(r'comments', CommentView, 'comments')
+router.register(r'users', CustomUserUsernameView, 'users')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
