@@ -81,3 +81,24 @@ class AnswerView(viewsets.ModelViewSet):
 class CommentView(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
+
+class AnswersForQuestionView(APIView):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_authenticated:
+            # get info
+            question = Question.objects.get(pk=kwargs.get('pk'))
+
+            # filter choices
+            choices = Choice.objects.filter(
+                author=user,
+                question=question
+            )
+
+            # prepare response
+            choices_list = [choice.id for choice in choices]
+            print(choices_list)
+
+            return Response({'choices': choices_list})
+        else:
+            return Response({'message': 'please log in'})

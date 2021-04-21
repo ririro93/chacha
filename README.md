@@ -20,6 +20,8 @@
         - [x] Main Question (main-question/)
             - [x] 각 Choice 에 대한 답변 개수만 추가해서 보내기
             - [x] -> answer 정보는 보내지 말기 (브라우저로 볼 수 있으니깐)
+    - [ ] view user answers for a question
+        - request with question id
 - Backend
     - auth
         - [x] rest-auth 3rd party 라이브러리 말고 그냥 기본 rest framework jwt 써보기
