@@ -26,6 +26,12 @@ class MainPage extends React.Component {
     this.ismounted = false; // any better way?
   }
 
+  getUserName(userId) {
+    axios.get('api/users/'+userId).then(res => {
+        return res.data.username;
+    });
+  }
+
   componentDidMount() {
     this.ismounted = true;
     axios.get('api/questions/').then(res => {
@@ -46,14 +52,34 @@ class MainPage extends React.Component {
       }
     });
 
+    
     axios.get('api/comments/').then(res => {
       if (this.ismounted) {
-        this.setState({
-          commentList: res.data
+        const commentList = res.data;
+        const commentDataList = [];
+        let pending = Promise.resolve();
+        for (let comment of commentList) {
+          pending = pending.then(() => 
+            axios.get('api/users/'+comment.author).then(res => {
+              const userName = res.data.username;
+              commentDataList.push({
+                author: userName,
+                avatar: <Avatar icon={<UserOutlined />} size="large" />,
+                content: comment.content,
+                datetime: comment.created_at
+              });
+            }));
+        }
+        pending.then(() => {
+          this.setState({
+            commentList: commentDataList
+          });
         });
       }
     });
+    
   }
+  
 
   
 

@@ -2,29 +2,21 @@ import React from 'react';
 import './Comments.css';
 import { Comment, Empty, List, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 class Comments extends React.Component {
     constructor(props) {
         super(props);
-    }
 
+    }
 
     render() {
         const { commentList } = this.props;
-        
-        const data = commentList.map(comment => {
-            return {
-                author: comment.author,
-                avatar: <Avatar icon={<UserOutlined />} size="large" />,
-                content: comment.content,
-                datetime: comment.created_at
-            }
-        });
 
         return (
             commentList ?
                 <List
-                    dataSource={data}
+                    dataSource={commentList}
                     renderItem={item => (
                         <li>
                             <Comment

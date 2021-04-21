@@ -95,10 +95,19 @@ class App extends React.Component {
           }
         }).then(res => {
             console.log('Signup success!');
-            return true;
+            return {
+              success: true
+            };
         }).catch(res => {
-            console.log('Signup failed!');
-            return false;
+          const { email, password1 } = res.response.data;
+          return {
+            success: false,
+            messages: {
+              email: email,
+              password1: password1,
+              password2: []
+            }
+          };
       });
   }
   
