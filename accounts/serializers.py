@@ -7,3 +7,9 @@ class CustomUserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('id', 'email', 'username', 'date_joined')
+
+# for sending to front end 
+class CustomUserUsernameSerializer(ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username')
