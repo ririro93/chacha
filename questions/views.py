@@ -99,6 +99,12 @@ class AnswersForQuestionView(APIView):
             choices_list = [choice.id for choice in choices]
             print(choices_list)
 
-            return Response({'choices': choices_list})
+            return Response({
+                'success': True,
+                'choices': choices_list
+            })
         else:
-            return Response({'message': 'please log in'})
+            return Response({
+                'success': False,
+                'message': 'please log in'
+            })
