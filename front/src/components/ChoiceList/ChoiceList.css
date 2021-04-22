@@ -1,8 +1,18 @@
-.list-group-item {
+.choice-item:hover {
+    background-color: beige;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.list-group-item:hover {
-    background-color: #eee;
+.choice-item {
+    background-color: white;
+    border-radius: 3px;
+    width: 100%;
+    padding: 10px;
+}
+
+.choice-item-focused {
+    background-color: beige;
+    border-radius: 3px;
+    width: 100%;
+    padding: 10px;
 }

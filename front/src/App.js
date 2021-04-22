@@ -1,23 +1,23 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
+import CreateQuestionPage from './pages/CreateQuestionPage';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { AppContext } from 'AppContext';
-import SignInModal from 'modals/SignInModal';
+import jwt_decode from "jwt-decode";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userEmail: localStorage['user-email'] === undefined ? null : localStorage['user-email'],
+      userEmail: localStorage['userEmail'] ? localStorage['userEmail'] : null,
+      userId: localStorage['userId'] ? localStorage['userId'] : null,
       isSignInModalVisible: false,
       isSignUpModalVisible: false
     };
   }
-
-
 
   setIsSignInModalVisible(flag) {
     this.setState({
@@ -25,36 +25,40 @@ class App extends React.Component {
     });
   }
 
-  setIsSignUpModalVisible(flag) { 
+  setIsSignUpModalVisible(flag) {
     this.setState({
       isSignUpModalVisible: flag
     });
   }
 
-
-  signIn(email, password) {
+  signIn(userEmail, password) {
     const csrftoken = Cookies.get('csrftoken');
     return axios.post('api/accounts/login/',
-        {
-            username: '',
-            email: email,
-            password: password
-        },
-        {
-            headers: {
-                'X-CSRFToken': csrftoken
-            }
-        }).then(res => {
-            console.log('Login success!');
-            localStorage['user-email'] = email;
-            this.setState({
-              userEmail: email
-            });
-            return true;
-        }).catch(res => {
-            console.log('Login failed!');
-            return false;
+      {
+        username: '',
+        email: userEmail,
+        password: password
+      },
+      {
+        headers: {
+            'X-CSRFToken': csrftoken
         }
+      }).then(res => {
+        const accessToken = res.data['access_token'];
+        const decoded = jwt_decode(accessToken);
+        const userId = decoded['user_id'];
+        console.log('Login success!');
+        localStorage['userEmail'] = userEmail;
+        localStorage['userId'] = userId;
+        this.setState({
+          userEmail: userEmail,
+          userId: userId
+        });
+        return true;
+      }).catch(res => {
+        console.log('Login failed!');
+        return false;
+      }
     );
   }
 
@@ -62,22 +66,24 @@ class App extends React.Component {
     console.log('signout');
     const csrftoken = Cookies.get('csrftoken');
     axios.post('api/accounts/logout/',
-        {
-        },
-        {
-            headers: {
-                'X-CSRFToken': csrftoken
-            }
-        }).then(res => {
-            console.log('Logout success!');
-            localStorage.removeItem('user-email');
-            this.setState({
-              userEmail: null
-            });
-            return true;
-        }).catch(res => {
-            console.log('Logout failed!');
-            return false;
+      {
+      },
+      {
+          headers: {
+              'X-CSRFToken': csrftoken
+          }
+      }).then(res => {
+          console.log('Logout success!');
+          localStorage.removeItem('userEmail');
+          localStorage.removeItem('userName');
+          this.setState({
+            userEmail: null,
+            userName: null
+          });
+          return true;
+      }).catch(res => {
+          console.log('Logout failed!');
+          return false;
     });
   }
 
@@ -113,12 +119,13 @@ class App extends React.Component {
   
   componentDidMount() {
     this.setState({
-      userEmail: localStorage['user-email'] === undefined ? null : localStorage['user-email']
+      userEmail: localStorage['userEmail'] ? localStorage['userEmail'] : null,
+      userId: localStorage['userId'] ? localStorage['userId'] : null
     });
   }
 
   render() {
-    const { userEmail, isSignInModalVisible, isSignUpModalVisible } = this.state;
+    const { userEmail, userId, isSignInModalVisible, isSignUpModalVisible } = this.state;
 
     return(
       <AppContext.Provider value={{
@@ -129,10 +136,12 @@ class App extends React.Component {
         isSignUpModalVisible: isSignUpModalVisible,
         setIsSignInModalVisible: this.setIsSignInModalVisible.bind(this),
         setIsSignUpModalVisible: this.setIsSignUpModalVisible.bind(this),
-        userEmail: userEmail
+        userEmail: userEmail,
+        userId: userId
       }}>
         <Router>
           <Route path='/' exact component={(props) => (<MainPage {...props} ></MainPage>)}></Route>
+          <Route path='/create-question' exact component={(props) => (<CreateQuestionPage {...props} ></CreateQuestionPage>)}></Route>
         </Router>
       </AppContext.Provider>
     )

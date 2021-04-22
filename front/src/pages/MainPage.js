@@ -18,7 +18,8 @@ class MainPage extends React.Component {
     this.state = {
       mainQuestion: null, 
       questionList: [],
-      commentList: []
+      commentList: [],
+      myAnswers: []
     }
   }
 
@@ -31,6 +32,7 @@ class MainPage extends React.Component {
         return res.data.username;
     });
   }
+
 
   componentDidMount() {
     this.ismounted = true;
@@ -48,6 +50,25 @@ class MainPage extends React.Component {
       if (this.ismounted) {
         this.setState({
           mainQuestion: mainQuestion
+        });
+
+        const mainQuestionId = mainQuestion.id;
+        axios.get('api/answers-for-question/'+mainQuestionId).then(res => {
+          console.log(res);
+          if (res.data.success) {
+            const myAnswers = res.data.choices;
+            this.setState({
+              myAnswers: myAnswers
+            });
+          } else {
+            const errorMessage = res.data.message;   
+            console.log(errorMessage);
+            const { userEmail, signOut } = this.context;
+            const isAuthenticated = userEmail !== null;
+            if (errorMessage === 'please log in' && isAuthenticated) {
+              signOut();
+            }
+          }
         });
       }
     });
@@ -81,13 +102,12 @@ class MainPage extends React.Component {
   }
   
 
-  
-
   render() {
-    const { mainQuestion, commentList } = this.state;
-    const { setIsSignInModalVisible, isSignInModalVisible, userEmail, signOut } = this.context;
+    const { history } = this.props;
+    const { mainQuestion, commentList, myAnswers } = this.state;
+    const { setIsSignInModalVisible, isSignInModalVisible, userEmail, userName, signOut } = this.context;
     const isAuthenticated = userEmail !== null;
-    
+
     return (
       <Layout>
         <Header>
@@ -96,7 +116,7 @@ class MainPage extends React.Component {
                 <Button type="primary"
                   onClick={() => {
                     if (isAuthenticated) {
-                      console.log('new question'); // Need to be implemented
+                      history.push('/create-question');
                     } else {
                       setIsSignInModalVisible(true);
                     }
@@ -122,7 +142,7 @@ class MainPage extends React.Component {
               {
                 mainQuestion ? 
                 <>
-                  <ChoiceList choiceList={mainQuestion.choices}></ChoiceList>
+                  <ChoiceList choiceList={mainQuestion.choices} questionId={mainQuestion.id} myAnswers={myAnswers}></ChoiceList>
                   <MyChart style={{margin: "auto"}}
                     question={mainQuestion}
                   ></MyChart>
@@ -131,7 +151,13 @@ class MainPage extends React.Component {
                 <Empty></Empty>
               }
               
-              <Comments commentList={commentList}></Comments>
+              <Comments commentList={commentList} myAnswers={myAnswers.length > 0 && mainQuestion !== null ? myAnswers.map(answer => {
+                for (let choice of mainQuestion.choices) {
+                  if (choice.id === answer) {
+                    return choice
+                  }
+                }
+              }): []}></Comments>
             </Col>
           </Row>
         </Content>

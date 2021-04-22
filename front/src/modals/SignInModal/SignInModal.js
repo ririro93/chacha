@@ -90,6 +90,7 @@ class SignInModal extends React.Component {
                             const { email, password } = this.state;
                             if (email === '' || password === '') return;
                             signIn(email, password).then(status => {
+                                console.log(status);
                                 if (status) {
                                     setIsSignInModalVisible(false);
                                 } else {
