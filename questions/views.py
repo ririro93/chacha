@@ -90,18 +90,16 @@ class AnswersForQuestionView(APIView):
             question = Question.objects.get(pk=kwargs.get('pk'))
 
             # filter choices
-            choices = Choice.objects.filter(
-                author=user,
-                question=question
-            )
-
-            # prepare response
-            choices_list = [choice.id for choice in choices]
-            print(choices_list)
+            choices = Choice.objects.filter(question=question)
+            answered_choices_list = []
+            for choice in choices:
+                answer = Answer.objects.filter(choice=choice)
+                if answer.exists():
+                    answered_choices_list.append(choice.id)
 
             return Response({
                 'success': True,
-                'choices': choices_list
+                'choices': answered_choices_list
             })
         else:
             return Response({
