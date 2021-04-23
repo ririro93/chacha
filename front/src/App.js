@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
-import CreateQuestionPage from './pages/CreateQuestionPage';
+import CreateQuestionPage from 'pages/CreateQuestionPage';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { AppContext } from 'AppContext';

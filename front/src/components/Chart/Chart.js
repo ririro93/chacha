@@ -6,29 +6,30 @@ class MyChart extends React.Component {
     constructor(props) {
         super(props);
         this.chart = null;
-        this.canvasRef = React.createRef();
-
-        
+        this.canvasRef = React.createRef();   
     }
-
-    /*
-    shouldComponentUpdate(nextProps) {
-        const nextQuestion = nextProps.question;
-        const { question } = this.props;
-        console.log(question, nextQuestion, this.chart);
-        if (question !== nextQuestion) return true;
-        return false;
-    }
-    */
 
     componentDidMount() {
+        console.log('mount');
         const { question } = this.props;
         if (question !== null && this.chart === null) {
             this.chart = this.createChart(question);
         }
     }
 
+    shouldComponentUpdate(nextProps) {
+        const nextQuestion = nextProps.question;
+        const { question } = this.props;
+        console.log(question.id !== nextQuestion.id);
+        if (question.id !== nextQuestion.id) {
+            return true;
+        }
+        return false;
+    }
+
+
     componentDidUpdate() {
+        console.log('update');
         const { question } = this.props;
         if (question === null) return;
         if (this.chart !== null) {

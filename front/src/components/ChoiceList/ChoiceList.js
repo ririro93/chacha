@@ -5,22 +5,6 @@ import { AppContext } from 'AppContext';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-
-class ChoiceItem extends React.Component {
-    render() {
-        const { content } = this.props;
-        return (
-            <div
-                style={{
-                    border: '1px solid gray'
-                }}>
-                { content }
-            </div>
-        )
-    }
-}
-
-
 class ChoiceList extends React.Component {
     state = {
         checkedList: []
